@@ -27,11 +27,25 @@ class Sipgate
     })
   end
   
+  def own_uri_list
+    @own_uri_list = nil unless @own_uri_list && @own_uri_list[:status_code] == 200
+    @own_uri_list ||= return_hash(@server.call("samurai.OwnUriListGet"))
+  end
+  
 private
 
   def return_hash(h)
     returning({}) do |new_hash|
-      h.each {|k,v| new_hash[k.underscore.to_sym] = v }
+      h.each do |k,v|
+        new_val = if v.is_a?(Hash)
+          return_hash(v)
+        elsif v.is_a?(Array)
+          v.map{|e| e.is_a?(Hash) ? return_hash(e) : e}
+        else
+          v
+        end
+        new_hash[k.underscore.to_sym] = new_val
+      end
     end
   end
 
