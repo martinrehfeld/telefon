@@ -1,4 +1,11 @@
 --- 
+vendor/plugins/rspec: 
+  local_branch: braid/git/vendor/plugins/rspec/master
+  type: git
+  revision: 
+  branch: master
+  squash: true
+  remote: git://github.com/dchelimsky/rspec.git
 vendor/rails: 
   local_branch: braid/git/vendor/rails/2-1-stable
   type: git
