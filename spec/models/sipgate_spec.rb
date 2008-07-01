@@ -3,6 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Sipgate do
   before(:each) do
      @sipgate = Sipgate.instance
+     @sipgate_server = Sipgate.instance.server
      @mock_server = mock("xmlrpc-server")
   end
 
@@ -26,5 +27,9 @@ describe Sipgate do
     @sipgate.server = @mock_server
     @mock_server.should_receive(:call).with("samurai.SessionInitiate", { 'LocalUri' => from, 'RemoteUri' => to, 'TOS' => 'voice', 'Content' => ''}).once.and_return({'StatusCode' => 200})
     @sipgate.voice_call(from, to)[:status_code].should == 200
+  end
+  
+  after(:each) do
+    Sipgate.instance.server = @sipgate_server
   end
 end
