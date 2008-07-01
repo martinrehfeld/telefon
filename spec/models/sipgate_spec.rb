@@ -33,7 +33,7 @@ describe Sipgate do
     @sipgate.server = @mock_server
     @mock_server.should_receive(:call).with("samurai.OwnUriListGet").once.and_return({'StatusCode' => 200, 'OwnUriList' => []})
     @sipgate.own_uri_list[:status_code].should == 200
-    @sipgate.own_uri_list[:own_uri_list].should be_kind_of Array
+    @sipgate.own_uri_list[:own_uri_list].should be_kind_of(Array)
   end
   
   after(:each) do

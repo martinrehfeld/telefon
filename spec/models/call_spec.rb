@@ -26,7 +26,7 @@ describe Call do
   describe "initialize" do
     it "should translate its attributes to valid SIP URIs" do
       c = Call.new(:destination => '49301234567')
-      c.destination.should match /sip:[0-9]+@sipgate\.(de|net)/
+      c.destination.should match(/sip:[0-9]+@sipgate\.(de|net)/)
     end
 
     it "should accept alread valid SIP URIs" do
@@ -40,7 +40,7 @@ describe Call do
     end
   end
 
-  after(:all) do
+  after(:each) do
     Sipgate.instance.server = @sipgate_server
   end
 end
