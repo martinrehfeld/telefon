@@ -1,0 +1,8 @@
+--- 
+vendor/rails: 
+  local_branch: braid/git/vendor/rails/2-1-stable
+  type: git
+  revision: 
+  branch: 2-1-stable
+  squash: true
+  remote: git://github.com/rails/rails.git
