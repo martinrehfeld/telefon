@@ -4,4 +4,5 @@ tmp/**/*
 doc/api
 doc/app
 db/schema.rb
+db/*.sqlite3
 config/sipgate.yml
