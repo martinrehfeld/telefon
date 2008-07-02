@@ -2,14 +2,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Call do
 
-  before(:all) do
+  before(:each) do
     # make sure no API calls are actually performed
     @mock_server = mock("call-xmlrpc-server")
     @mock_server.stub!(:call).and_return({'StatusCode' => 200})
     Sipgate.instance.server = @mock_server
-  end
-
-  before(:each) do
     @call = Call.new
   end
   
@@ -39,7 +36,7 @@ describe Call do
     end
   end
 
-  after(:all) do
+  after(:each) do
     Sipgate.instance.reset!
   end
 end
