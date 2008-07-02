@@ -4,10 +4,9 @@ describe CallsController do
 
   before(:all) do
     # make sure no API calls are actually performed
-    mock_server = mock("xmlrpc-server")
-    mock_server.should_receive(:call).with(any_args).any_number_of_times.and_return({'StatusCode' => 200})
-    @sipgate_server = Sipgate.instance.server
-    Sipgate.instance.server = mock_server
+    @mock_server = mock("calls-controller-xmlrpc-server")
+    @mock_server.stub!(:call).and_return({'StatusCode' => 200})
+    Sipgate.instance.server = @mock_server
   end
 
   it "should use CallsController" do
@@ -30,6 +29,7 @@ describe CallsController do
   end
   
   after(:all) do
-    Sipgate.instance.server = @sipgate_server
+    Sipgate.instance.reset!
   end
+
 end

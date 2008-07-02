@@ -10,8 +10,13 @@ class Sipgate
   attr_accessor :server
   
   def initialize
+    reset!
+  end
+  
+  def reset!
     config = YAML.load_file(File.join(Rails.root,'config','sipgate.yml'))
     @server = XMLRPC::Client.new2("https://#{config['username']}:#{config['password']}@samurai.sipgate.net/RPC2")
+    @own_uri_list = nil
   end
   
   def identify
@@ -28,8 +33,11 @@ class Sipgate
   end
   
   def own_uri_list
-    @own_uri_list = nil unless @own_uri_list && @own_uri_list[:status_code] == 200
-    @own_uri_list ||= return_hash(@server.call("samurai.OwnUriListGet"))
+    if @own_uri_list.nil? || @own_uri_list[:status_code] != 200
+      @own_uri_list = return_hash(@server.call("samurai.OwnUriListGet"))
+    end
+
+    @own_uri_list
   end
   
 private
