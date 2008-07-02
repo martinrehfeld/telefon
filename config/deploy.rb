@@ -34,10 +34,10 @@ namespace :deploy do
   
   desc "Copy local sipgate.yml to server"
   task :copy_sipgate_config do
-    put(File.read('config/sipgate.yml'),"#{current_path}/config/sipgate.yml", :mode => 0400)
+    put(File.read('config/sipgate.yml'),"#{current_path}/config/sipgate.yml", :mode => 0600)
   end
 
-  after "deploy:update_code", "deploy:copy_sipgate_config" 
+  after "deploy:symlink", "deploy:copy_sipgate_config" 
 end
 
 
