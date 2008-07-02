@@ -31,5 +31,9 @@ namespace :deploy do
   task :stop, :roles => :app do
     sudo "/etc/init.d/mongrel_cluster stop"
   end
+  
+  desc "DISABLED as long no DB is used"
+  task :migrate, :roles => :db do
+  end
 
 end
