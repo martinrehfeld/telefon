@@ -2,12 +2,10 @@
 # for Rails 3. You can remove this initializer when Rails 3 is released.
 
 # Include Active Record class name as root for JSON serialized output.
-# disabled as long we are using no DB
-# ActiveRecord::Base.include_root_in_json = true
+ActiveRecord::Base.include_root_in_json = true
 
 # Store the full class name (including module namespace) in STI type column.
-# disabled as long we are using no DB
-# ActiveRecord::Base.store_full_sti_class = true
+ActiveRecord::Base.store_full_sti_class = true
 
 # Use ISO 8601 format for JSON serialized times and dates.
 ActiveSupport.use_standard_json_time_format = true
