@@ -1,7 +1,8 @@
 set :application, "telefon"
 
-set :repository,  "git@github.com:martinrehfeld/telefon.git"
 set :scm, "git"
+set :repository,  "git@github.com:martinrehfeld/telefon.git"
+set :branch, "master"
 
 set :deploy_via, :remote_cache
 set :deploy_to, "/var/rails/#{application}"
