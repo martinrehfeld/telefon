@@ -32,4 +32,12 @@ namespace :deploy do
     sudo "/etc/init.d/mongrel_cluster stop"
   end
   
+  desc "Copy local sipgate.yml to server"
+  task :copy_sipgate_config do
+    put(File.read('config/sipgate.yml'),"#{current_path}/config/sipgate.yml", :mode => 0400)
+  end
+
+  after "deploy:update_code", "deploy:copy_sipgate_config" 
 end
+
+
