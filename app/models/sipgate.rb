@@ -10,19 +10,22 @@ class Sipgate
   attr_accessor :server
   
   def initialize
-    reset!
+    reload!
   end
   
-  def reset!
+  # reload config from sipgate.yml file and provide corresponding XMLRPC client object
+  def reload!
     config = YAML.load_file(File.join(Rails.root,'config','sipgate.yml'))
     @server = XMLRPC::Client.new2("https://#{config['username']}:#{config['password']}@samurai.sipgate.net/RPC2")
     @own_uri_list = nil
   end
   
+  # send ClientIdentifiy message
   def identify
     return_hash @server.call("samurai.ClientIdentify", CLIENT_ID)
   end
   
+  # use SessionInitiate to connect a voice session
   def voice_call(local_uri, remote_uri)
     return_hash @server.call("samurai.SessionInitiate", {
       'LocalUri'  => local_uri,
@@ -32,6 +35,7 @@ class Sipgate
     })
   end
   
+  # use OwnUriListGet to provide a list of own SIP URIs
   def own_uri_list
     if @own_uri_list.nil? || @own_uri_list[:status_code] != 200
       @own_uri_list = return_hash(@server.call("samurai.OwnUriListGet"))
@@ -41,9 +45,10 @@ class Sipgate
   end
   
 private
-
+  
+  # make server responses look more Ruby like (underscored Symbol as Hash keys)
   def return_hash(h)
-    returning({}) do |new_hash|
+    returning new_hash = {} do
       h.each do |k,v|
         new_val = if v.is_a?(Hash)
           return_hash(v)

@@ -1,24 +1,24 @@
 class CallsController < ApplicationController
   
-  # GET /calls/new
-  def new
+  # GET /calls
+  def index
     @call = Call.new
-    # render default template
   end
 
   # POST /calls
-  def create(call_attrs = params[:call])
-    @call = Call.new(call_attrs)
-    response = Sipgate.instance.voice_call(@call.origin,@call.destination)
+  def create
+    @call = Call.new(params[:call])
+    response = @call.dial
+
     if response[:status_code] == 200
       flash[:notice] = 'Anruf wurde abgesetzt.'
-      redirect_to new_call_url
+      redirect_to calls_url
     else
       raise response[:status_string]
     end
   rescue
-    @error_message = "Ein Fehler ist aufgetreten: #{$!.message}."
-    render :action => :new
+    @call.errors.add_to_base "Ein Fehler ist aufgetreten: #{$!}"
+    render :action => :index
   end
 
 end

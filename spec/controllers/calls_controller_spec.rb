@@ -13,23 +13,23 @@ describe CallsController do
     controller.should be_an_instance_of(CallsController)
   end
   
-  describe "GET /call/new" do
+  describe "GET /calls" do
     it "should provide a dial form" do
-      get :new
+      get :index
       response.should be_success
-      response.should render_template(:new)
+      response.should render_template(:index)
     end
   end
   
   describe "POST /calls" do
     it "should issue a phone call" do
       post :create, { :call => {:destination => '1234567'} }
-      response.should redirect_to(new_call_url)
+      response.should redirect_to(calls_url)
     end
   end
   
   after(:all) do
-    Sipgate.instance.reset!
+    Sipgate.instance.reload!
   end
 
 end

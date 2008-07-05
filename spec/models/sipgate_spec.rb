@@ -35,6 +35,6 @@ describe Sipgate do
   end
   
   after(:each) do
-    Sipgate.instance.reset!
+    Sipgate.instance.reload!
   end
 end
