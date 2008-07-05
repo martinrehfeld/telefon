@@ -11,13 +11,13 @@ class CallsController < ApplicationController
     response = @call.dial
 
     if response[:status_code] == 200
-      flash[:notice] = 'Anruf wurde abgesetzt.'
+      flash[:notice] = 'Call initiated.'
       redirect_to calls_url
     else
       raise response[:status_string]
     end
   rescue
-    @call.errors.add_to_base "Ein Fehler ist aufgetreten: #{$!}"
+    @call.errors.add_to_base "Exception: #{$!}"
     render :action => :index
   end
 

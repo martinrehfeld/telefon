@@ -19,6 +19,11 @@ describe Call do
     # TODO: actually test this
   end
   
+  it "should respond to errros" do
+    @call.should respond_to(:errors)
+    @call.errors.should respond_to(:on)
+  end
+  
   describe "initialize" do
     it "should translate its attributes to valid SIP URIs" do
       c = Call.new(:destination => '49301234567')

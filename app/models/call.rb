@@ -31,14 +31,14 @@ class Call
     if errors.blank?
       Sipgate.instance.voice_call(origin, destination)
     else
-      { :status_code => 404, :status_string => 'parameter validation failed' }
+      { :status_code => 404, :status_string => 'parameter validation failed.' }
     end
   end
   
   def validate
     if destination.nil?
       # given destination has incorrect format
-      errors.add(:destination, "hat kein gültiges Telefonnummernformat.")
+      errors.add(:destination, "has invalid telephone number format.")
     end
   end
   

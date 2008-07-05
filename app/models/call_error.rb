@@ -1,16 +1,27 @@
 # mimic the behaviour of ActiveRecord::Errors
 class CallError
 
-  def on(field)
-    @field_errors[field.to_sym]
-  end
-  
   def add(field, m = 'invalid')
     @field_errors[field.to_sym] = m
   end
 
   def add_to_base(m)
     @base << m
+  end
+  
+  def on(field)
+    @field_errors[field.to_sym]
+  end
+  
+  def on_base
+    case @base.size
+    when 0
+      nil
+    when 1
+      @base.first
+    else
+      @base
+    end
   end
   
   def full_messages
