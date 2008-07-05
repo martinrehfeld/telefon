@@ -2,6 +2,10 @@ class Call
   attr_accessor :origin, :destination
   attr_reader :errors
   
+  def self.human_attribute_name(attr)
+    attr.humanize
+  end
+  
   # make sure the FormHelper will generate a _create_ from for this model
   def new_record?
     true
@@ -31,7 +35,7 @@ class Call
     if errors.blank?
       Sipgate.instance.voice_call(origin, destination)
     else
-      { :status_code => 404, :status_string => 'parameter validation failed.' }
+      { :status_code => 407, :status_string => 'Invalid parameter value.' }
     end
   end
   
@@ -42,11 +46,15 @@ class Call
     end
   end
   
+  def valid?
+    errors.blank?
+  end
+  
   def initialize(attrs = {})
     attrs.each do |k,v|
       send "#{k}=".to_sym, to_sip_uri(v)
     end
-    @errors = CallError.new
+    @errors = ActiveRecord::Errors.new(self)
   end
 
 private

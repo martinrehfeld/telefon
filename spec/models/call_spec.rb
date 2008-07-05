@@ -19,7 +19,7 @@ describe Call do
     # TODO: actually test this
   end
   
-  it "should respond to errros" do
+  it "should respond to errors" do
     @call.should respond_to(:errors)
     @call.errors.should respond_to(:on)
   end
@@ -30,7 +30,7 @@ describe Call do
       c.destination.should == 'sip:49301234567@sipgate.de'
     end
 
-    it "should accept alread valid SIP URIs" do
+    it "should accept already valid SIP URIs" do
       c = Call.new(:destination => 'sip:49301234567@sipgate.de')
       c.destination.should == 'sip:49301234567@sipgate.de'
     end

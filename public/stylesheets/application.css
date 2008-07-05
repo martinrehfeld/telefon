@@ -13,8 +13,19 @@ body, p, ol, ul, td {
   line-height: 18px;
 }
 
-span#flash-message {
-  color: green;
+div#new-call-form {
+  padding-bottom: 15px;
+}
+
+div.form-field {
+  float:left;
+  padding-right: 10px;
+}
+
+form label {
+  font-size: 10px;
+  text-transform: uppercase;
+  display: block;
 }
 
 div.flash-message {
@@ -22,13 +33,13 @@ div.flash-message {
   padding-bottom: 5px;
 }
 
-div#new-call-form {
-  padding-bottom: 10px;
+span#flash-message {
+  color: green;
 }
 
 #errorExplanation {
-  width: 400px;
-  border: 2px solid red;
+  width: 440px;
+  border: 2px solid #c00;
   padding: 7px;
   padding-bottom: 12px;
   margin-bottom: 20px;

@@ -17,7 +17,7 @@ class CallsController < ApplicationController
       raise response[:status_string]
     end
   rescue
-    @call.errors.add_to_base "Exception: #{$!}"
+    @call.errors.add_to_base "Exception: #{$!}" if @call.valid?
     render :action => :index
   end
 
