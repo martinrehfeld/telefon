@@ -29,7 +29,7 @@ class Call
   
   # provide human names for attributes (ActiveRecord::Errors interface)
   def self.human_attribute_name(attr)
-    s_("#{self}|#{attr.humanize}")
+    s_("#{self}|#{attr.to_s.humanize}")
   end
   
   # make sure the FormHelper will generate a _create_ from for this model
