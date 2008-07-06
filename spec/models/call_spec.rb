@@ -10,8 +10,14 @@ describe Call do
     @call = Call.new
   end
   
-  it "should always be a new record" do
-    @call.should be_new_record
+  describe "ActiveSupport form helper integration" do
+    it "should resond to id" do
+      @call.id.should == @call.object_id
+    end
+
+    it "should always be a new record" do
+      @call.should be_new_record
+    end
   end
   
   describe "ActiveRecord::Errors integration" do

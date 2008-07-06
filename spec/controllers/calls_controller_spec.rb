@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CallsController do
 
-  before(:all) do
+  before(:each) do
     # make sure no API calls are actually performed
     @mock_server = mock("calls-controller-xmlrpc-server")
     @mock_server.stub!(:call).and_return({'StatusCode' => 200})
@@ -26,9 +26,17 @@ describe CallsController do
       post :create, { :call => {:destination => '1234567'} }
       response.should redirect_to(calls_url)
     end
+    
+    it "should re-render the action on errros" do
+      @mock_server.stub!(:call).and_return({'StatusCode' => 999})
+      post :create, { :call => {:destination => '1234567'} }
+      assigns[:call].should_not be_valid
+      assigns[:call].errors.on_base.should =~ /\(999\)$/
+      response.should render_template(:index)
+    end
   end
   
-  after(:all) do
+  after(:each) do
     Sipgate.instance.reload!
   end
 
