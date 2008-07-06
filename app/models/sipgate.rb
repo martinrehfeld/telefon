@@ -57,7 +57,7 @@ private
         else
           v
         end
-        new_hash[k.underscore.to_sym] = new_val
+        new_hash[k.to_s.underscore.to_sym] = new_val
       end
     end
   end

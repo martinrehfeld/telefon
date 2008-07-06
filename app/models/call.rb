@@ -2,8 +2,9 @@ class Call
   attr_accessor :origin, :destination
   attr_reader :errors
   
+  # provide human names for attributes (ActiveRecord::Errors interface)
   def self.human_attribute_name(attr)
-    attr.humanize
+    attr.to_s.humanize
   end
   
   # make sure the FormHelper will generate a _create_ from for this model
@@ -12,7 +13,7 @@ class Call
   end
   
   # provide a unique identifier while suppressing the deprecation warning
-  # for the usage of Object#id
+  # for the usage of Object#id (form helper interface)
   def id
     object_id
   end
@@ -22,7 +23,7 @@ class Call
     response = Sipgate.instance.own_uri_list
     return nil unless response[:status_code] == 200 && response[:own_uri_list]
     response[:own_uri_list].
-      select{|uri_spec| uri_spec[:tos] == ["voice"] }.
+      select{|uri_spec| uri_spec[:tos].include?("voice") }.
       collect{|uri_spec| [
         uri_spec[:uri_alias].blank? ? uri_spec[:e164_out] : uri_spec[:uri_alias],
         uri_spec[:sip_uri]
@@ -47,7 +48,7 @@ class Call
   end
   
   def valid?
-    errors.blank?
+    errors.empty?
   end
   
   def initialize(attrs = {})
