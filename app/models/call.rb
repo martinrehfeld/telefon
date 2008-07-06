@@ -2,6 +2,31 @@ class Call
   attr_accessor :origin, :destination
   attr_reader :errors
   
+  include GetText
+  bindtextdomain("telefon")
+
+  # add msgids to gettexts .po file
+  N_("call")
+  N_("Call|Origin")
+  N_("Call|Destination")
+
+  @@custom_error_messages_d = {}
+  
+  # gettext interface (class method)
+  def self.custom_error_messages_d
+    @@custom_error_messages_d
+  end
+  
+  # gettext interface (instance method)
+  def custom_error_messages_d
+    self.class.custom_error_messages_d
+  end
+  
+  # gettext interface (instance method)
+  def gettext(str)
+    _(str)
+  end
+  
   # provide human names for attributes (ActiveRecord::Errors interface)
   def self.human_attribute_name(attr)
     attr.to_s.humanize
@@ -43,7 +68,7 @@ class Call
   def validate
     if destination.nil?
       # given destination has incorrect format
-      errors.add(:destination, "has invalid telephone number format.")
+      errors.add(:destination, _("has invalid telephone number format."))
     end
   end
   

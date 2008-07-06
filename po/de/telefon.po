@@ -1,0 +1,42 @@
+# German Translations for Telefon Project.
+# Copyright (C) 2008
+# This file is distributed under the same license as the Telefon package.
+# Martin Rehfeld <martin.rehfeld@glnetworks.de>, 2008.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: telefon 1.0.0\n"
+"POT-Creation-Date: 2008-07-06 13:39+0200\n"
+"PO-Revision-Date: 2008-07-06 13:20+0200\n"
+"Last-Translator: Martin Rehfeld <martin.rehfeld@glnetworks.de>\n"
+"Language-Team: DE <martin.rehfeld@glnetworks.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: app/controllers/calls_controller.rb:14
+msgid "Call initiated."
+msgstr "Anruf gestartet."
+
+# Call class /app/models/call.rb
+#: app/models/call.rb:8
+msgid "call"
+msgstr "Anruf"
+
+#: app/models/call.rb:9
+msgid "Call|Origin"
+msgstr "Apparat"
+
+#: app/models/call.rb:10
+msgid "Call|Destination"
+msgstr "Zielrufnummer"
+
+#: app/models/call.rb:70
+msgid "has invalid telephone number format."
+msgstr "hat ein ungültiges Telefonnummernformat."
+
+#: app/views/calls/index.html.erb:12
+msgid "Connect"
+msgstr "Anrufen"

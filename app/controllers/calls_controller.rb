@@ -11,7 +11,7 @@ class CallsController < ApplicationController
     response = @call.dial
 
     if response[:status_code] == 200
-      flash[:notice] = 'Call initiated.'
+      flash[:notice] = _('Call initiated.')
       redirect_to calls_url
     else
       raise "#{response[:status_string]} (#{response[:status_code]})"

@@ -32,6 +32,20 @@ describe Call do
     end
   end
   
+  describe "Gettext interface" do
+    it "respond to custom_error_messages_d (class and instance)" do
+      Call.should respond_to(:custom_error_messages_d)
+      Call.custom_error_messages_d.should be_kind_of(Hash)
+      @call.should respond_to(:custom_error_messages_d)
+      @call.custom_error_messages_d.should be_kind_of(Hash)
+    end
+    
+    it "should respond to gettext" do
+      @call.should respond_to(:gettext)
+      @call.gettext("SOMESYMBOL").should == "SOMESYMBOL"
+    end
+  end
+  
   it "should provide a list of call origins (only voice services)" do
     @mock_server.stub!(:call).and_return({
       :status_string=>"Method success",
