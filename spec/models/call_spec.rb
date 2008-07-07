@@ -62,6 +62,44 @@ describe Call do
     ]
   end
   
+  it "should provide a call history (only voice services)" do
+    @mock_server.stub!(:call).and_return({
+      :status_string=>"Method success",
+      :status_code=>200,
+      :history=>[
+        # outgoing voice
+        {:entry_id=>"O_fffffffffffffffffffffffffffffffa", :timestamp=>"2008-07-06T14:36:18+0200", :status=>"outgoing", :remote_uri=>"sip:0815@sipgate.net", :local_uri=>"sip:4711@sipgate.net", :tos=>"voice"},
+        # incoming voice
+        {:entry_id=>"O_fffffffffffffffffffffffffffffffb", :timestamp=>"2008-07-06T14:36:19+0200", :status=>"accepted", :remote_uri=>"sip:0815@sipgate.net", :local_uri=>"sip:4711@sipgate.net", :tos=>"voice"},
+        # incoming fax (ignored)
+        {:entry_id=>"O_fffffffffffffffffffffffffffffffc", :timestamp=>"2008-07-06T14:36:20+0200", :status=>"accepted", :remote_uri=>"sip:0815@sipgate.net", :local_uri=>"sip:4712@sipgate.net", :tos=>"fax"}
+      ]
+    })
+    response = Call.history
+    response.should have(2).entries
+    response.last.origin.should == "sip:0815@sipgate.net"
+    response.last.destination.should == "sip:4711@sipgate.net"
+    response.first.origin.should == "sip:4711@sipgate.net"
+    response.first.destination.should == "sip:0815@sipgate.net"
+  end
+  
+  describe "outbound?" do
+    it "should return true if the call status is 'outgoing'" do
+      @call.status = 'outgoing'
+      @call.outbound?.should be_true
+    end
+
+    it "should return false if the call status is 'accepted'" do
+      @call.status = 'accepted'
+      @call.outbound?.should be_false
+    end
+
+    it "should return false if the call status is 'missed'" do
+      @call.status = 'missed'
+      @call.outbound?.should be_false
+    end
+  end
+  
   describe "initialize" do
     it "should translate its attributes to valid SIP URIs" do
       c = Call.new(:destination => '49301234567')

@@ -1,5 +1,5 @@
 class Call
-  attr_accessor :origin, :destination
+  attr_accessor :origin, :destination, :status, :timestamp
   attr_reader :errors
   
   include GetText
@@ -65,6 +65,27 @@ class Call
     end
   end
   
+  # provice call history (return array of calls)
+  def self.history
+    response = Sipgate.instance.history
+    return nil unless response[:status_code] == 200 && response[:history]
+    response[:history].
+      select{|entry| entry[:tos].include?("voice") }.
+      collect do |entry|
+        origin = entry[:local_uri]
+        destination = entry[:remote_uri]
+        origin, destination = destination, origin unless entry[:status] == 'outgoing' 
+        Call.new(:origin => origin,
+                 :destination => destination,
+                 :timestamp => entry[:timestamp],
+                 :status => entry[:status])
+      end
+  end
+  
+  def outbound?
+    status == 'outgoing'
+  end
+  
   def validate
     if destination.nil?
       # given destination has incorrect format
@@ -78,7 +99,8 @@ class Call
   
   def initialize(attrs = {})
     attrs.each do |k,v|
-      send "#{k}=".to_sym, to_sip_uri(v)
+      translated_val = [:origin, :destination].include?(k) ? to_sip_uri(v) : v
+      send "#{k}=".to_sym, translated_val
     end
     @errors = ActiveRecord::Errors.new(self)
   end

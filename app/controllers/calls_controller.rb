@@ -3,6 +3,7 @@ class CallsController < ApplicationController
   # GET /calls
   def index
     @call = Call.new
+    @history = Call.history
   end
 
   # POST /calls

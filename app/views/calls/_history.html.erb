@@ -1,0 +1,25 @@
+<h2><%= _('Call History') %></h2>
+<div id="call-history">
+  <table>
+    <thead>
+      <tr>
+        <th><%= s_('Call|Timestamp') %></th>
+        <th><%= s_('Call|Status') %></th>
+        <th><%= _('Conversational Partner') %></th>
+        <th><%= _('Own Extension') %></th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <% Array(@history).sort_by(&:timestamp).reverse_each do |call| %>
+        <tr>
+          <td><%=h call.timestamp.to_datetime.to_s(:long_ordinal) %></td>
+          <td><%= phone_status(call.status) %></td>
+          <td><%= phone_number(call.outbound? ? call.destination : call.origin) || _('unknown') %></td>
+          <td><%= phone_number(call.outbound? ? call.origin : call.destination) || _('unknown') %></td>
+        </tr>
+      <% end -%>
+    </tbody>
+        
+  </table>
+</div>

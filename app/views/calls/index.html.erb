@@ -1,3 +1,5 @@
+<% javascript "phone_number_to_call_form" %>
+
 <div id="new-call-form">
   <% form_for @call do |f| -%>
     <div class="form-field">
@@ -14,3 +16,5 @@
 </div>
 
 <%= error_messages_for :call %>
+
+<%= render :partial => 'history', :with => @history unless @history.blank? %>
