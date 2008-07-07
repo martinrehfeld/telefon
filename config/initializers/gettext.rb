@@ -4,3 +4,6 @@ module ActionView
     delegate :file_exists?, :to => :finder unless respond_to?(:file_exists?)
   end
 end
+
+# include Date l18n
+require 'gettext_date'

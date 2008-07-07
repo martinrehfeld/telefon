@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: telefon 1.0.0\n"
-"POT-Creation-Date: 2008-07-07 22:33+0200\n"
+"POT-Creation-Date: 2008-07-07 22:52+0200\n"
 "PO-Revision-Date: 2008-07-06 13:20+0200\n"
 "Last-Translator: Martin Rehfeld <martin.rehfeld@glnetworks.de>\n"
 "Language-Team: DE <martin.rehfeld@glnetworks.de>\n"
@@ -76,3 +76,179 @@ msgstr "unbekannt"
 #: app/views/calls/index.html.erb:14
 msgid "Connect"
 msgstr "Anrufen"
+
+#: lib/gettext_date.rb:26
+msgid "%Y-%m-%d"
+msgstr "%Y-%m-%d"
+
+#: lib/gettext_date.rb:28
+msgid "%a %b %e %H:%M:%S %Y"
+msgstr "%a %b %e %H:%M:%S %Y"
+
+#: lib/gettext_date.rb:30
+msgid "%m/%d/%y"
+msgstr "%d.%m.%Y"
+
+#: lib/gettext_date.rb:35
+msgid "Sunday"
+msgstr "Sonntag"
+
+#: lib/gettext_date.rb:35
+msgid "Monday"
+msgstr "Montag"
+
+#: lib/gettext_date.rb:35
+msgid "Tuesday"
+msgstr "Dienstag"
+
+#: lib/gettext_date.rb:35
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+#: lib/gettext_date.rb:36
+msgid "Thursday"
+msgstr "Donnerstag"
+
+#: lib/gettext_date.rb:36
+msgid "Friday"
+msgstr "Freitag"
+
+#: lib/gettext_date.rb:36
+msgid "Saturday"
+msgstr "Samstag"
+
+#: lib/gettext_date.rb:40
+msgid "Sun"
+msgstr "So"
+
+#: lib/gettext_date.rb:40
+msgid "Mon"
+msgstr "Mo"
+
+#: lib/gettext_date.rb:40
+msgid "Tue"
+msgstr "Di"
+
+#: lib/gettext_date.rb:40
+msgid "Wed"
+msgstr "Mi"
+
+#: lib/gettext_date.rb:41
+msgid "Thu"
+msgstr "Do"
+
+#: lib/gettext_date.rb:41
+msgid "Fri"
+msgstr "Fr"
+
+#: lib/gettext_date.rb:41
+msgid "Sat"
+msgstr "Sa"
+
+#: lib/gettext_date.rb:45
+msgid "January"
+msgstr "Januar"
+
+#: lib/gettext_date.rb:45
+msgid "February"
+msgstr "Februar"
+
+#: lib/gettext_date.rb:45
+msgid "March"
+msgstr "März"
+
+#: lib/gettext_date.rb:45
+msgid "April"
+msgstr "April"
+
+#: lib/gettext_date.rb:46 lib/gettext_date.rb:52
+msgid "May"
+msgstr "Mai"
+
+#: lib/gettext_date.rb:46
+msgid "June"
+msgstr "Juni"
+
+#: lib/gettext_date.rb:46
+msgid "July"
+msgstr "Juli"
+
+#: lib/gettext_date.rb:46
+msgid "August"
+msgstr "August"
+
+#: lib/gettext_date.rb:46
+msgid "September"
+msgstr "September"
+
+#: lib/gettext_date.rb:47
+msgid "October"
+msgstr "Oktober"
+
+#: lib/gettext_date.rb:47
+msgid "November"
+msgstr "November"
+
+#: lib/gettext_date.rb:47
+msgid "December"
+msgstr "Dezember"
+
+#: lib/gettext_date.rb:52
+msgid "Jan"
+msgstr "Jan"
+
+#: lib/gettext_date.rb:52
+msgid "Feb"
+msgstr "Feb"
+
+#: lib/gettext_date.rb:52
+msgid "Mar"
+msgstr "Mär"
+
+#: lib/gettext_date.rb:52
+msgid "Apr"
+msgstr "Apr"
+
+#: lib/gettext_date.rb:52
+msgid "Jun"
+msgstr "Jun"
+
+#: lib/gettext_date.rb:53
+msgid "Jul"
+msgstr "Jul"
+
+#: lib/gettext_date.rb:53
+msgid "Aug"
+msgstr "Aug"
+
+#: lib/gettext_date.rb:53
+msgid "Sep"
+msgstr "Sep"
+
+#: lib/gettext_date.rb:53
+msgid "Oct"
+msgstr "Okt"
+
+#: lib/gettext_date.rb:54
+msgid "Nov"
+msgstr "Nov"
+
+#: lib/gettext_date.rb:54
+msgid "Dec"
+msgstr "Dez"
+
+#: lib/gettext_date.rb:60
+msgid "AM"
+msgstr "AM"
+
+#: lib/gettext_date.rb:60
+msgid "am"
+msgstr "am"
+
+#: lib/gettext_date.rb:62
+msgid "PM"
+msgstr "PM"
+
+#: lib/gettext_date.rb:62
+msgid "pm"
+msgstr "pm"

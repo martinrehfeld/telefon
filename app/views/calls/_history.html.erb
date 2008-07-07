@@ -13,7 +13,7 @@
     <tbody>
       <% Array(@history).sort_by(&:timestamp).reverse_each do |call| %>
         <tr>
-          <td><%=h call.timestamp.to_datetime.to_s(:long_ordinal) %></td>
+          <td><%=h call.timestamp.to_datetime.to_s(:long) %></td>
           <td><%= phone_status(call.status) %></td>
           <td><%= phone_number(call.outbound? ? call.destination : call.origin) || _('unknown') %></td>
           <td><%= phone_number(call.outbound? ? call.origin : call.destination) || _('unknown') %></td>
