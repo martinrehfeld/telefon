@@ -44,6 +44,18 @@ class Sipgate
     @own_uri_list
   end
   
+  # use HistoryGetByDate to retrieve the session history
+  def history(filter_options = {})
+    call_options = {}
+    call_options['StatusList'] = Array(filter_options.delete(:status)).map(&:to_s) if filter_options[:status]
+    call_options['LocalUriList'] = Array(filter_options.delete(:local_uri)).map(&:to_s) if filter_options[:local_uri]
+    call_options['PeriodStart'] = filter_options.delete(:start).to_s(:rfc3339) if filter_options[:start]
+    call_options['PeriodEnd'] = filter_options.delete(:end).to_s(:rfc3339) if filter_options[:end]
+    raise ArgumentError, "Invalid filter option(s): #{filter_options.inspect}" unless filter_options.empty?
+
+    return_hash(@server.call("samurai.HistoryGetByDate", call_options))
+  end
+  
 private
   
   # make server responses look more Ruby like (underscored Symbol as Hash keys)
