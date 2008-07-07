@@ -5,7 +5,7 @@ module CallsHelper
     if number.starts_with?("1100") || number.starts_with?("2200")
       number = number[4..-1]
     end
-    content_tag :span, "+#{number[0..1]} #{number[2..-1]}", :class => 'phone-number'
+    content_tag :span, number, :class => 'phone-number'
   end
   
   def phone_status(status)

@@ -13,6 +13,12 @@ body, p, ol, ul, td {
   line-height: 18px;
 }
 
+h2 {
+  text-transform: uppercase;
+  font-weight: normal;
+  color: #555;
+}
+
 div#new-call-form {
   padding-bottom: 15px;
 }
@@ -24,6 +30,7 @@ div.form-field {
 
 form label {
   font-size: 10px;
+  color: #555;
   text-transform: uppercase;
   display: block;
 }
@@ -65,5 +72,40 @@ span#flash-message {
 #errorExplanation ul li {
   font-size: 12px;
   list-style: square;
+}
+
+div#call-history thead th {
+  padding-right: 15px;
+  text-align: left;
+  text-transform: lowercase;
+  color: #fff;
+  background-color:#666;
+}
+
+div#call-history table {
+  border-collapse: collapse;
+}
+
+div#call-history table td {
+  border-bottom: 1px solid #EBEBEB;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  padding-right: 15px;
+  margin: 0px;
+  vertical-align: baseline;
+  color: #666;
+  font-size: 90%;
+}
+
+div#call-history tbody tr:hover {
+  background-color: #eee;
+}
+
+span.phone-number.clickable {
+  cursor: pointer;
+}
+
+span.phone-number.clickable:hover {
+  text-decoration: underline;
 }
 
