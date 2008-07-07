@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: telefon 1.0.0\n"
-"POT-Creation-Date: 2008-07-06 13:39+0200\n"
+"POT-Creation-Date: 2008-07-07 22:33+0200\n"
 "PO-Revision-Date: 2008-07-06 13:20+0200\n"
 "Last-Translator: Martin Rehfeld <martin.rehfeld@glnetworks.de>\n"
 "Language-Team: DE <martin.rehfeld@glnetworks.de>\n"
@@ -16,27 +16,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app/controllers/calls_controller.rb:14
+#: app/controllers/calls_controller.rb:15
 msgid "Call initiated."
 msgstr "Anruf gestartet."
 
 # Call class /app/models/call.rb
-#: app/models/call.rb:8
+#: app/models/call.rb:9
 msgid "call"
 msgstr "Anruf"
 
-#: app/models/call.rb:9
+#: app/models/call.rb:10
+msgid "Call|missed"
+msgstr "verpasst"
+
+#: app/models/call.rb:11
+msgid "Call|accepted"
+msgstr "angenommen"
+
+#: app/models/call.rb:12
+msgid "Call|outgoing"
+msgstr "getätigt"
+
+#: app/models/call.rb:13 app/views/calls/_history.html.erb:7
+msgid "Call|Status"
+msgstr " "
+
+#: app/models/call.rb:14 app/views/calls/_history.html.erb:6
+msgid "Call|Timestamp"
+msgstr "Zeitpunkt"
+
+#: app/models/call.rb:15
 msgid "Call|Origin"
 msgstr "Apparat"
 
-#: app/models/call.rb:10
+#: app/models/call.rb:16
 msgid "Call|Destination"
 msgstr "Zielrufnummer"
 
-#: app/models/call.rb:70
+#: app/models/call.rb:97
 msgid "has invalid telephone number format."
 msgstr "hat ein ungültiges Telefonnummernformat."
 
-#: app/views/calls/index.html.erb:12
+#: app/views/calls/_history.html.erb:1
+msgid "Call History"
+msgstr "Anrufe"
+
+#: app/views/calls/_history.html.erb:8
+msgid "Conversational Partner"
+msgstr "Gesprächspartner"
+
+#: app/views/calls/_history.html.erb:9
+msgid "Own Extension"
+msgstr "Eigener Anschluss"
+
+#: app/views/calls/_history.html.erb:18 app/views/calls/_history.html.erb:19
+msgid "unknown"
+msgstr "unbekannt"
+
+#: app/views/calls/index.html.erb:14
 msgid "Connect"
 msgstr "Anrufen"

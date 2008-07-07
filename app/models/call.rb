@@ -7,6 +7,11 @@ class Call
 
   # add msgids to gettexts .po file
   N_("call")
+  N_("Call|missed")
+  N_("Call|accepted")
+  N_("Call|outgoing")
+  N_("Call|Status")
+  N_("Call|Timestamp")
   N_("Call|Origin")
   N_("Call|Destination")
 
