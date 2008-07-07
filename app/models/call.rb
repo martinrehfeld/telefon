@@ -99,7 +99,7 @@ class Call
   
   def initialize(attrs = {})
     attrs.each do |k,v|
-      translated_val = [:origin, :destination].include?(k) ? to_sip_uri(v) : v
+      translated_val = [:origin, :destination].include?(k.to_sym) ? to_sip_uri(v) : v
       send "#{k}=".to_sym, translated_val
     end
     @errors = ActiveRecord::Errors.new(self)

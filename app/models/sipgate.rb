@@ -53,7 +53,7 @@ class Sipgate
     call_options['PeriodEnd'] = filter_options.delete(:end).to_s(:rfc3339) if filter_options[:end]
     raise ArgumentError, "Invalid filter option(s): #{filter_options.inspect}" unless filter_options.empty?
 
-    return_hash(@server.call("samurai.HistoryGetByDate", call_options))
+    return_hash @server.call("samurai.HistoryGetByDate", call_options)
   end
   
 private
