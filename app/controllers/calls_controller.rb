@@ -3,7 +3,7 @@ class CallsController < ApplicationController
   # GET /calls
   def index
     @call = Call.new
-    @history = Call.history
+    @include_history = true
   end
 
   # POST /calls
@@ -20,6 +20,15 @@ class CallsController < ApplicationController
   rescue
     @call.errors.add_to_base "Exception: #{$!}" if @call.valid? # only if Sipgate API was actually touched
     render :action => :index
+  end
+  
+  # (XHR) GET /calls/history
+  def history
+    @history = Call.history
+    respond_to do |format|
+      format.html # default 
+      format.js   { render :partial => 'history' }
+    end
   end
 
 end

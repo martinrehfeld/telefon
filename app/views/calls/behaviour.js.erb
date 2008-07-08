@@ -1,0 +1,29 @@
+Event.observe(window, 'load', function(){
+  // populate call history
+  $('call-history-headline').show();
+  <%= remote_function(
+    :update   => "call-history-placeholder",
+    :url      => history_calls_url,
+    :method   => :get,
+    :loading  => "$('call-history-busy').style.visibility = 'visible'",
+    :complete => "$('call-history-busy').style.visibility = 'hidden'; makePhoneNumbersClickable(); #{visual_effect(:blind_down, "call-history-placeholder", :duration => 3.0)}")
+  %>
+});
+
+// make all phone-numbers clickable, entering their value into the new_call form
+
+function makePhoneNumbersClickable() {
+  $$('.phone-number').each(function(e) {
+    e.addClassName('clickable');
+    e.observe('click', respondToPhoneNumberClick);
+  });
+}
+
+function respondToPhoneNumberClick(event) {
+  if(event.isLeftClick()) {
+    call_destination = $$('form.new_call').first()['call_destination'];
+    call_destination.value = event.element().innerHTML.gsub(/\+/,'').gsub(/ /,'');
+    $('top').scrollTo();
+    call_destination.activate();
+  }
+}

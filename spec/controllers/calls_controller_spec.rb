@@ -14,11 +14,11 @@ describe CallsController do
   
   describe "GET /calls" do
     it "should provide a dial form" do
-      @mock_server.stub!(:call).and_return({'StatusCode' => 200, 'History' => []})
+      @mock_server.stub!(:call).and_return({'StatusCode' => 200})
       get :index
       response.should be_success
       assigns[:call].should_not be_nil
-      assigns[:history].should_not be_nil
+      assigns[:include_history].should be_true
       response.should render_template(:index)
     end
   end
@@ -35,7 +35,27 @@ describe CallsController do
       post :create, { :call => {:destination => '1234567'} }
       assigns[:call].should_not be_valid
       assigns[:call].errors.on_base.should =~ /\(999\)$/
+      assigns[:include_history].should be_nil
       response.should render_template(:index)
+    end
+  end
+  
+  describe "GET /calls/history" do
+    before(:each) do
+      @history = []
+      @mock_server.stub!(:call).and_return({'StatusCode' => 200, 'History' => @history})
+    end
+    
+    it "should show the Call history (HTML)" do
+      get :history
+      assigns[:history].should_not be_nil
+      response.should render_template(:history)
+    end
+
+    it "should show the Call history (AJAX)" do
+      controller.expect_render(:partial => 'history')
+      xhr :get, :history
+      assigns[:history].should == @history
     end
   end
   

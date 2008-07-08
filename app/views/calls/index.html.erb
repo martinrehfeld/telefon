@@ -1,4 +1,4 @@
-<% javascript "phone_number_to_call_form" %>
+<% javascript formatted_behaviour_calls_path(:js) %>
 
 <div id="new-call-form">
   <% form_for @call do |f| -%>
@@ -17,4 +17,16 @@
 
 <%= error_messages_for :call %>
 
-<%= render :partial => 'history', :with => @history unless @history.blank? %>
+<% unless @include_history.blank? %>
+  <!-- to be populated and made visible via javascript behaviour -->
+  <h2 id="call-history-headline" style="display:none">
+    <%= _('Call History') -%>
+    <%= image_tag "busy.gif", :id => "call-history-busy", :style => "visibility:hidden" %>
+  </h2>
+  <div id="call-history-placeholder" style="display:none"></div>
+
+  <!-- no js fallback -->
+  <noscript>
+    <%= link_to "#{_('Call History')}...", history_calls_url %>
+  </noscript>
+<% end -%>
