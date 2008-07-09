@@ -9,7 +9,7 @@ class CallsController < ApplicationController
   # POST /calls
   def create
     @call = Call.new(params[:call])
-    cookies[:last_call_origin] = @call.origin
+    cookies[:last_call_origin] = { :value => @call.origin, :expires => 5.years.from_now }
     response = @call.dial
 
     if response[:status_code] == 200
