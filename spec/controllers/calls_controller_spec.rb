@@ -21,6 +21,12 @@ describe CallsController do
       assigns[:include_history].should be_true
       response.should render_template(:index)
     end
+    
+    it "should default origin to value stored in cookie" do
+      set_cookie request, :last_call_origin, 'sip:89012345@sipgate.de'
+      get :index
+      assigns[:call].origin.should == 'sip:89012345@sipgate.de'
+    end
   end
   
   describe "POST /calls" do
@@ -28,6 +34,13 @@ describe CallsController do
       @mock_server.stub!(:call).and_return({'StatusCode' => 200})
       post :create, { :call => {:destination => '1234567'} }
       response.should redirect_to(calls_url)
+    end
+    
+    it "should remember the last used origin in a cookie" do
+      @mock_server.stub!(:call).and_return({'StatusCode' => 200})
+      post :create, { :call => {:destination => '1234567', :origin => '89012345'} }
+      response.should redirect_to(calls_url)
+      response.cookies["last_call_origin"].should == ['sip:89012345@sipgate.de']
     end
     
     it "should re-render the action on errros" do

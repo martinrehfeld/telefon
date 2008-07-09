@@ -17,7 +17,7 @@
 
 <%= error_messages_for :call %>
 
-<% unless @include_history.blank? %>
+<% if @include_history %>
   <!-- to be populated and made visible via javascript behaviour -->
   <h2 id="call-history-headline" style="display:none">
     <%= _('Call History') -%>

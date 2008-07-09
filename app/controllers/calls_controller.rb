@@ -2,13 +2,14 @@ class CallsController < ApplicationController
   
   # GET /calls
   def index
-    @call = Call.new
+    @call = Call.new(:origin => cookies[:last_call_origin])
     @include_history = true
   end
 
   # POST /calls
   def create
     @call = Call.new(params[:call])
+    cookies[:last_call_origin] = @call.origin
     response = @call.dial
 
     if response[:status_code] == 200

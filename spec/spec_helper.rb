@@ -1,9 +1,11 @@
-# This file is copied to ~/spec when you run 'ruby script/generate rspec'
-# from the project root directory.
 ENV["RAILS_ENV"] = "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec'
 require 'spec/rails'
+
+def set_cookie(request, name, value)
+  request.cookies["#{name}"] = CGI::Cookie.new('name' => "#{name}", 'value' => value)
+end  
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
