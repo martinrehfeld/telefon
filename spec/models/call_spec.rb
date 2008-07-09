@@ -115,6 +115,14 @@ describe Call do
       c = Call.new(:destination => nil)
       c.destination.should be_nil
     end
+    
+    it "should accept formatted telephone numbers" do
+      c = Call.new(:destination => '+49 30 1234.567')
+      c.destination.should == 'sip:49301234567@sipgate.de'
+      c = Call.new(:destination => '(030) 1234-567')
+      c.destination.should == 'sip:0301234567@sipgate.de'
+    end
+    
   end
   
   describe "valdidation" do

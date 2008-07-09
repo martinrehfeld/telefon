@@ -117,7 +117,8 @@ private
     case phone_number_spec
     when /sip:[0-9a-z]+@sipgate\.(de|net)/  # already a SIP URI
       phone_number_spec
-    when /^[0-9]+$/
+    when /^[0-9.+\- ()]+$/
+      phone_number_spec.gsub!(/(\.|\+|-| |\(|\))/,'')
       "sip:#{phone_number_spec}@sipgate.de" # phone number
     else
       nil
