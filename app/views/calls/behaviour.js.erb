@@ -1,6 +1,7 @@
 Event.observe(window, 'load', function(){
   // populate call history
   $('call-history-headline').show();
+  $$('form.new_call').first()['call_destination'].activate();
   <%= remote_function(
     :update   => "call-history-placeholder",
     :url      => history_calls_url,
