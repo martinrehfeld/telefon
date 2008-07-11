@@ -1,14 +1,18 @@
 Event.observe(window, 'load', function(){
-  // populate call history
-  $('call-history-headline').show();
-  $$('form.new_call').first()['call_destination'].activate();
-  <%= remote_function(
-    :update   => "call-history-placeholder",
-    :url      => history_calls_url,
-    :method   => :get,
-    :loading  => "$('call-history-busy').style.visibility = 'visible'",
-    :complete => "$('call-history-busy').style.visibility = 'hidden'; makePhoneNumbersClickable(); #{visual_effect(:blind_down, "call-history-placeholder", :duration => 3.0)}")
-  %>
+  // activate destination field for immediate entry
+  Form.Element.activate('call_destination');
+
+  // populate call history if present
+  if($('call-history-placeholder')) {
+    $('call-history-headline').show();
+    <%= remote_function(
+      :update   => "call-history-placeholder",
+      :url      => history_calls_url,
+      :method   => :get,
+      :loading  => "$('call-history-busy').style.visibility = 'visible'",
+      :complete => "$('call-history-busy').style.visibility = 'hidden'; makePhoneNumbersClickable(); #{visual_effect(:blind_down, "call-history-placeholder", :duration => 3.0)}")
+    %>
+  }
 });
 
 // make all phone-numbers clickable, entering their value into the new_call form
@@ -21,10 +25,7 @@ function makePhoneNumbersClickable() {
 }
 
 function respondToPhoneNumberClick(event) {
-  if(event.isLeftClick()) {
-    call_destination = $$('form.new_call').first()['call_destination'];
-    call_destination.value = event.element().innerHTML.gsub(/\+/,'').gsub(/ /,'');
-    $('top').scrollTo();
-    call_destination.activate();
-  }
+  $('call_destination').value = event.element().innerHTML.gsub(/\+/,'').gsub(/ /,'');
+  $('top').scrollTo();
+  Form.Element.activate('call_destination');
 }
