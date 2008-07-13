@@ -8,16 +8,19 @@ describe CallsHelper do
   end
   
   describe "phone_number" do
-    it "should convert a SIP URI into a phone number wrapped by a span" do
-      helper.phone_number("sip:49304711@sipgate.net").should ==
-        '<span class="phone-number">49304711</span>'
+    before(:each) do
+      @call = Call.new(:destination => "sip:49304711@sipgate.de")
     end
     
-    it "should strip off leading 2200 or 1100 from the phone number (seem to be used by Sipgate internally)" do
-      helper.phone_number("sip:220049304711@sipgate.net").should ==
-        '<span class="phone-number">49304711</span>'
-        helper.phone_number("sip:110049304711@sipgate.net").should ==
-          '<span class="phone-number">49304711</span>'
+    it "should convert a SIP URI into a phone number wrapped by a span" do
+      helper.phone_number(@call, :destination).should ==
+        '<span class="phone-number">49304711</span><span class="phone-name"></span>'
+    end
+    
+    it "should hide the phone number and display the name if Call has <attribute>_name" do
+      @call.destination_name = "Somebody"
+      helper.phone_number(@call, :destination).should ==
+        '<span class="phone-number" style="display:none">49304711</span><span class="phone-name">Somebody</span>'
     end
   end
   

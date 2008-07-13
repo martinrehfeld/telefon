@@ -1,6 +1,8 @@
 class Call
-  attr_accessor :origin, :destination, :status, :timestamp
-  attr_reader :errors
+  attr_accessor :origin, :destination, :origin_name, :destination_name,
+                :status, :timestamp
+
+  attr_reader   :errors
   
   include GetText
   bindtextdomain("telefon")
@@ -74,14 +76,19 @@ class Call
   def self.history
     response = Sipgate.instance.history
     return nil unless response[:status_code] == 200 && response[:history]
+
+    phonebook = Sipgate.instance.phonebook(true)
+
     response[:history].
       select{|entry| entry[:tos].include?("voice") }.
       collect do |entry|
         origin = entry[:local_uri]
         destination = entry[:remote_uri]
-        origin, destination = destination, origin unless entry[:status] == 'outgoing' 
-        Call.new(:origin => origin,
-                 :destination => destination,
+        origin, destination = destination, origin unless entry[:status] == 'outgoing'
+        origin_name = name_from_phonebook(origin, phonebook)
+        destination_name = name_from_phonebook(destination, phonebook)
+        Call.new(:origin => origin, :origin_name => origin_name,
+                 :destination => destination, :destination_name => destination_name,
                  :timestamp => entry[:timestamp],
                  :status => entry[:status])
       end
@@ -102,6 +109,15 @@ class Call
     errors.empty?
   end
   
+  # return the pure numerical form of a given phone number or SIP URI
+  def self.normalized_phonenumber(phone)
+    phone.to_s.gsub(/(\.|\+|-| |\(|\))/,'').match /[0-9]+/
+    number = $&
+    number = number[4..-1] if number && (number.starts_with?("1100") || number.starts_with?("2200"))
+
+    number
+  end
+
   def initialize(attrs = {})
     attrs.each do |k,v|
       translated_val = [:origin, :destination].include?(k.to_sym) ? to_sip_uri(v) : v
@@ -124,5 +140,19 @@ private
       nil
     end
   end
-
+  
+  def self.name_from_phonebook(uri, phonebook)
+    phonebook.each do |entry_id, phonebook_entry|
+      if phonebook_entry[:vcard].telephones.any?{|t| phone_numbers_identical?(t.to_s,uri) }
+        return phonebook_entry[:vcard]['FN'] # FN = Full Name
+      end
+    end
+    
+    nil # no name found
+  end
+  
+  def self.phone_numbers_identical?(phone1, phone2)
+    normalized_phonenumber(phone1) == normalized_phonenumber(phone2)
+  end
+  
 end

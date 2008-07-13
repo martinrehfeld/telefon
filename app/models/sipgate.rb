@@ -37,6 +37,7 @@ class Sipgate
   end
   
   # use OwnUriListGet to provide a list of own SIP URIs
+  # WARNING: this function will cache the result until an instance reload!
   def own_uri_list
     if @own_uri_list.nil? || @own_uri_list[:status_code] != 200
       @own_uri_list = return_hash(@server.call("samurai.OwnUriListGet"))
@@ -57,7 +58,8 @@ class Sipgate
 
     # save fetched entry in phonebook cache
     response[:entry_list].each do |entry|
-      @phonebook[entry[:entry_id]] = entry
+      vcard = Vpim::Vcard.decode(entry[:entry]).first rescue nil
+      @phonebook[entry[:entry_id]] = entry.merge!(:vcard => vcard)
     end if response[:status_code] == 200
 
     response
@@ -69,7 +71,7 @@ class Sipgate
   def phonebook(fall_back_to_cache = true)
     response = phonebook_list
     if response[:status_code] == 200
-      changed_entries = response[:phonebook_list].
+      changed_entries = Array(response[:phonebook_list]).
         select{|le| @phonebook[le[:entry_id]].nil? || le[:entry_hash] != @phonebook[le[:entry_id]][:entry_hash] }.
         collect{|le| le[:entry_id] }
 

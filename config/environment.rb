@@ -24,6 +24,7 @@ Rails::Initializer.run do |config|
   # They can then be installed with "rake gems:install" on new installations.
   config.gem "sqlite3-ruby", :lib => "sqlite3"
   config.gem "gettext", :version => "1.91.0", :lib => "gettext/rails"
+  config.gem "vpim", :version=> "0.619", :lib => "vpim/vcard"
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"

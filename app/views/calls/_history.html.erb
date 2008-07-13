@@ -15,8 +15,8 @@
           <tr>
             <td><%=h call.timestamp.to_datetime.to_s(:long) %></td>
             <td><%= phone_status(call.status) %></td>
-            <td><%= phone_number(call.outbound? ? call.destination : call.origin) || _('unknown') %></td>
-            <td><%= phone_number(call.outbound? ? call.origin : call.destination) || _('unknown') %></td>
+            <td><%= phone_number(call, call.outbound? ? :destination : :origin) || _('unknown') %></td>
+            <td><%= phone_number(call, call.outbound? ? :origin : :destination) || _('unknown') %></td>
           </tr>
         <% end -%>
       </tbody>

@@ -5,7 +5,6 @@ describe Call do
   before(:each) do
     # make sure no API calls are actually performed
     @mock_server = mock("call-xmlrpc-server")
-    @mock_server.stub!(:call).and_return({'StatusCode' => 200})
     Sipgate.instance.server = @mock_server
     @call = Call.new
   end
@@ -63,7 +62,21 @@ describe Call do
   end
   
   it "should provide a call history (only voice services)" do
-    @mock_server.stub!(:call).and_return({
+    @mock_server.should_receive(:call).with("samurai.PhonebookListGet").once.and_return({
+      :status_string=>"Method success",
+      :status_code=>200,
+      :phonebook_list => [{ :entry_id => '1', :entry_hash => 'abc' }]
+    })
+    @mock_server.should_receive(:call).with("samurai.PhonebookEntryGet", anything).once.and_return({
+        :status_string=>"Method success",
+        :status_code=>200,
+        :entry_list => [{
+          :entry_id => '1',
+          :entry_hash => 'abc',
+          :entry=>"BEGIN:VCARD\nFN;quoted-printable:Somebody\nTEL;cell:4711\nEND:VCARD"
+        }]
+    })
+    @mock_server.should_receive(:call).with("samurai.HistoryGetByDate", anything).once.and_return({
       :status_string=>"Method success",
       :status_code=>200,
       :history=>[
@@ -78,9 +91,16 @@ describe Call do
     response = Call.history
     response.should have(2).entries
     response.last.origin.should == "sip:0815@sipgate.net"
+    response.last.origin_name.should be_nil
+    
     response.last.destination.should == "sip:4711@sipgate.net"
+    response.last.destination_name.should == "Somebody"
+    
     response.first.origin.should == "sip:4711@sipgate.net"
+    response.first.origin_name.should == "Somebody"
+
     response.first.destination.should == "sip:0815@sipgate.net"
+    response.first.destination_name.should be_nil
   end
   
   describe "outbound?" do
@@ -156,10 +176,25 @@ describe Call do
     end
     
     it "should initiate the call if validation passes" do
+      @mock_server.stub!(:call).and_return({'StatusCode' => 200})
       c = Call.new(:destination => '123')
       response = c.dial
       c.should be_valid
       response[:status_code].should == 200
+    end
+  end
+  
+  describe "normalized_phonenumber" do
+    it "should return only the digits from a formatted phone number" do
+      Call.normalized_phonenumber("+49 30 123-456").should == "4930123456"
+    end
+    
+    it "should strip off leading 1100 (used internally by Sipgate)" do
+      Call.normalized_phonenumber("11004930123456").should == "4930123456"
+    end
+
+    it "should strip off leading 2200 (used internally by Sipgate)" do
+      Call.normalized_phonenumber("22004930123456").should == "4930123456"
     end
   end
 

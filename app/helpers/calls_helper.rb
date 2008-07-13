@@ -1,11 +1,12 @@
 module CallsHelper
-  def phone_number(sip_uri)
+  def phone_number(call, attribute)
+    sip_uri = call.send attribute
     return nil unless sip_uri && sip_uri.match(/^sip:([0-9]+)@/)
-    number = $1
-    if number.starts_with?("1100") || number.starts_with?("2200")
-      number = number[4..-1]
-    end
-    content_tag :span, number, :class => 'phone-number'
+
+    name = call.send("#{attribute}_name".to_sym) rescue nil
+    
+    content_tag(:span, Call.normalized_phonenumber(sip_uri), :class => 'phone-number', :style => name.blank? ? nil : 'display:none') +
+    content_tag(:span, name, :class => 'phone-name')
   end
   
   def phone_status(status)

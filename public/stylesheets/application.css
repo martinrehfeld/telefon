@@ -101,11 +101,12 @@ div#call-history tbody tr:hover {
   background-color: #eee;
 }
 
-span.phone-number.clickable {
+span.phone-number.clickable,
+span.phone-name.clickable {
   cursor: pointer;
 }
 
-span.phone-number.clickable:hover {
+span.phone-number.clickable:hover,
+span.phone-name.clickable:hover {
   text-decoration: underline;
 }
-
