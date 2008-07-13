@@ -7,7 +7,7 @@ Event.observe(window, 'load', function(){
     $('call-history-headline').show();
     <%= remote_function(
       :update   => "call-history-placeholder",
-      :url      => history_calls_url,
+      :url      => call_history_url,
       :method   => :get,
       :loading  => "$('call-history-busy').style.visibility = 'visible'",
       :complete => "$('call-history-busy').style.visibility = 'hidden'; makePhoneNumbersClickable(); #{visual_effect(:blind_down, "call-history-placeholder", :duration => 3.0)}")

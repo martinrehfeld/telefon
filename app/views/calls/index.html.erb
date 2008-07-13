@@ -1,4 +1,4 @@
-<% javascript formatted_behaviour_calls_path(:js) %>
+<% javascript call_behaviour_path %>
 
 <div id="new-call-form">
   <% form_for @call do |f| -%>
@@ -27,6 +27,6 @@
 
   <!-- no js fallback -->
   <noscript>
-    <%= link_to "#{_('Call History')}...", history_calls_url %>
+    <%= link_to "#{_('Call History')}...", call_history_path %>
   </noscript>
 <% end -%>
