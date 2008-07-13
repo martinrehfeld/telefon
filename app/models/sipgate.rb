@@ -18,6 +18,7 @@ class Sipgate
     config = YAML.load_file(File.join(Rails.root,'config','sipgate.yml'))
     @server = XMLRPC::Client.new2("https://#{config['username']}:#{config['password']}@samurai.sipgate.net/RPC2")
     @own_uri_list = nil
+    @phonebook = {}
   end
   
   # send ClientIdentifiy message
@@ -42,6 +43,40 @@ class Sipgate
     end
 
     @own_uri_list
+  end
+  
+  # use PhonebookListGet to provide a list of phonebook entries (id + hash)
+  def phonebook_list
+    return_hash @server.call("samurai.PhonebookListGet")
+  end
+  
+  # use PhonebookEntryGet to get the phonebook record to a given id
+  def phonebook_entry(*ids)
+    requested_entries = Array(ids).flatten.map(&:to_s)
+    response = return_hash @server.call("samurai.PhonebookEntryGet", 'EntryIDList' => requested_entries)
+
+    # save fetched entry in phonebook cache
+    response[:entry_list].each do |entry|
+      @phonebook[entry[:entry_id]] = entry
+    end if response[:status_code] == 200
+
+    response
+  end
+  alias phonebook_entries phonebook_entry
+  
+  # use PhonebookListGet and PhonebookEntryGet together with out local cache
+  # to provide the current phonebook with minimal calls to the XMLRPC server
+  def phonebook(fall_back_to_cache = true)
+    response = phonebook_list
+    if response[:status_code] == 200
+      changed_entries = response[:phonebook_list].
+        select{|le| @phonebook[le[:entry_id]].nil? || le[:entry_hash] != @phonebook[le[:entry_id]][:entry_hash] }.
+        collect{|le| le[:entry_id] }
+
+      response = phonebook_entry(changed_entries) unless changed_entries.empty? # refresh cache
+    end
+
+    response[:status_code] == 200 || fall_back_to_cache ? @phonebook : nil
   end
   
   # use HistoryGetByDate to retrieve the session history

@@ -30,7 +30,7 @@ describe Sipgate do
     it "should provide a list of own URIs" do
       @mock_server.should_receive(:call).with("samurai.OwnUriListGet").once.and_return({'StatusCode' => 200, 'OwnUriList' => []})
       Sipgate.instance.own_uri_list[:status_code].should == 200
-      Sipgate.instance.own_uri_list[:own_uri_list].should be_kind_of(Array)
+      Sipgate.instance.own_uri_list[:own_uri_list].should == []
     end
 
     describe "history" do
@@ -38,7 +38,7 @@ describe Sipgate do
         @mock_server.should_receive(:call).with("samurai.HistoryGetByDate", {}).once.and_return({'StatusCode' => 200, 'History' => []})
         response = Sipgate.instance.history
         response[:status_code].should == 200
-        response[:history].should be_kind_of(Array)
+        response[:history].should == []
       end
 
       it "should be filterable by individual status" do
@@ -83,6 +83,58 @@ describe Sipgate do
         lambda {
           Sipgate.instance.history(:unknown_key => "invalid arg")
         }.should raise_error(ArgumentError)
+      end
+    end
+    
+    it "should provide a list of phone book items" do
+      @mock_server.should_receive(:call).with("samurai.PhonebookListGet").once.and_return({'StatusCode' => 200, 'PhonebookList' => []})
+      response = Sipgate.instance.phonebook_list
+      response[:status_code].should == 200
+      response[:phonebook_list].should == []
+    end
+    
+    describe "phonebook_entry" do
+      it "should provide a single phonebook record" do
+        @mock_server.should_receive(:call).with("samurai.PhonebookEntryGet", 'EntryIDList'=> ['1']).once.and_return({'StatusCode' => 200, 'EntryList' => []})
+        response = Sipgate.instance.phonebook_entry(1)
+        response[:status_code].should == 200
+        response[:entry_list].should == []
+      end
+      
+      it "should provide phonebook records for given argument list" do
+        @mock_server.should_receive(:call).with("samurai.PhonebookEntryGet", 'EntryIDList'=> ['1','2']).once.and_return({'StatusCode' => 200, 'EntryList' => []})
+        response = Sipgate.instance.phonebook_entry(1,2)
+        response[:status_code].should == 200
+        response[:entry_list].should == []
+      end
+      
+      it "should provide phonebook records for given array of ids" do
+        @mock_server.should_receive(:call).with("samurai.PhonebookEntryGet", 'EntryIDList'=> ['1','2']).once.and_return({'StatusCode' => 200, 'EntryList' => []})
+        response = Sipgate.instance.phonebook_entry([1,2])
+        response[:status_code].should == 200
+        response[:entry_list].should == []
+      end
+    end
+    
+    describe "phonebook" do
+      it "should initially fetch all phonebook entries from the server" do
+        @mock_server.should_receive(:call).with("samurai.PhonebookListGet").once.and_return({'StatusCode' => 200, 'PhonebookList' => [{ :entry_id => '1', :entry_hash => 'abc' }]})
+        @mock_server.should_receive(:call).with("samurai.PhonebookEntryGet", 'EntryIDList'=> ['1']).once.and_return({'StatusCode' => 200, 'EntryList' => [{ :entry_id => '1', :entry_hash => 'abc' }]})
+        Sipgate.instance.phonebook
+      end
+
+      it "should not fetch unchanged phonebook entries from the server" do
+        @mock_server.should_receive(:call).with("samurai.PhonebookListGet").once.and_return({'StatusCode' => 200, 'PhonebookList' => [{ :entry_id => '1', :entry_hash => 'abc' }]})
+        @mock_server.should_not_receive(:call).with("samurai.PhonebookEntryGet", anything)
+        Sipgate.instance.instance_eval { @phonebook = { '1' => { :entry_id => '1', :entry_hash => 'abc' } } }
+        Sipgate.instance.phonebook
+      end
+
+      it "should re-fetch changed phonebook entries from the server" do
+        @mock_server.should_receive(:call).with("samurai.PhonebookListGet").once.and_return({'StatusCode' => 200, 'PhonebookList' => [{ :entry_id => '1', :entry_hash => 'def' }]})
+        @mock_server.should_receive(:call).with("samurai.PhonebookEntryGet", 'EntryIDList'=> ['1']).once.and_return({'StatusCode' => 200, 'EntryList' => [{ :entry_id => '1', :entry_hash => 'def' }]})
+        Sipgate.instance.instance_eval { @phonebook = { '1' => { :entry_id => '1', :entry_hash => 'abc' } } }
+        Sipgate.instance.phonebook
       end
     end
   
