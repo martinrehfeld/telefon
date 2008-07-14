@@ -13,6 +13,13 @@ vendor/rails:
   branch: 2-1-stable
   squash: true
   remote: git://github.com/rails/rails.git
+vendor/plugins/javascript_test: 
+  local_branch: braid/git/vendor/plugins/javascript-test/master
+  type: git
+  revision: 
+  branch: master
+  squash: true
+  remote: git://github.com/rails/javascript_test.git
 vendor/plugins/rspec_on_rails: 
   local_branch: braid/git/vendor/plugins/rspec-on-rails/master
   type: git
