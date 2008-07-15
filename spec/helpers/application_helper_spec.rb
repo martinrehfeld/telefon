@@ -18,8 +18,9 @@ describe ApplicationHelper do
     
     describe "javascript with block" do
       it "should also add a javascript_tag with contents the block" do
-        helper.javascript('file1', 'file2') { "return;" }.should ==
-          helper.javascript_include_tag('file1', 'file2') + "\n" + helper.javascript_tag("return;")
+        helper.capture {
+          helper.javascript('file1', 'file2') { "return;" }
+        }.should == helper.javascript_include_tag('file1', 'file2') + "\n" + helper.javascript_tag("return;")
       end
     end
 

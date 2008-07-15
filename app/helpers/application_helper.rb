@@ -1,7 +1,10 @@
 module ApplicationHelper
   def javascript(*files, &block)
-    content_for(:head) { javascript_include_tag(*files) }
-    content_for(:head, javascript_tag(capture(&block))) if block
+    if block
+      content_for(:head, javascript_include_tag(*files)+"\n"+javascript_tag(capture(&block)))
+    else
+      content_for(:head, javascript_include_tag(*files))
+    end
   end
 
   def stylesheet(*files)
