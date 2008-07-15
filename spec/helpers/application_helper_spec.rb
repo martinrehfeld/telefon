@@ -11,8 +11,15 @@ describe ApplicationHelper do
     describe "javascript" do
       it "should add a javascript_include_tag to the :head content" do
         helper.capture {
-          helper.javascript 'file1', 'file2'
+          helper.javascript('file1', 'file2')
         }.should == helper.javascript_include_tag('file1', 'file2')
+      end
+    end
+    
+    describe "javascript with block" do
+      it "should also add a javascript_tag with contents the block" do
+        helper.javascript('file1', 'file2') { "return;" }.should ==
+          helper.javascript_include_tag('file1', 'file2') + "\n" + helper.javascript_tag("return;")
       end
     end
 
