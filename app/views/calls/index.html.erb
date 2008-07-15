@@ -1,4 +1,7 @@
-<% javascript call_behaviour_path %>
+<% javascript 'behaviour/call' do %>
+  Telefon.CallBehaviour.sourceUrl = '<%= call_history_path %>';
+  Event.observe(window, 'load', Telefon.CallBehaviour.init);
+<% end -%>
 
 <div id="new-call-form">
   <% form_for @call do |f| -%>

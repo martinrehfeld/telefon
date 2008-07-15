@@ -10,8 +10,8 @@ task 'test:javascripts' => :environment do
       t.run(File.basename(js,'.html').gsub(/_test/,''))
     end
     
-    t.browser(:safari)
     t.browser(:firefox)
+    t.browser(:safari)
     t.browser(:ie)
     t.browser(:konqueror)
   end

@@ -39,9 +39,11 @@ class JavaScriptTest
     end
   
     def visit(url)
-      applescript('tell application "Firefox" to Get URL "' + url + '"') if macos? 
+# MR: firefox would not realiably process the applescript command - use the 
+#     command line interface instead (see linux-command)
+#      applescript('tell application "Firefox" to Get URL "' + url + '"') if macos? 
+      system("firefox #{url}") if linux? || macos?
       system("#{@path} #{url}") if windows? 
-      system("firefox #{url}") if linux?
     end
   
     def to_s

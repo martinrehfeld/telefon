@@ -4,10 +4,11 @@
 <head>
   <title>JavaScript unit test file</title>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <script src="../../public/javascripts/prototype.js" type="text/javascript"></script>
-    <script src="assets/unittest.js" type="text/javascript"></script>
-  
-  <script src="../../public/javascripts/call_behaviour.js" type="text/javascript"></script>
+  <script src="../../public/javascripts/prototype.js" type="text/javascript"></script>
+  <script src="assets/event.simulate.js" type="text/javascript"></script>
+  <script src="assets/unittest.js" type="text/javascript"></script>
+
+  <script src="../../public/javascripts/behaviour/call.js" type="text/javascript"></script>
   
   <link rel="stylesheet" href="assets/unittest.css" type="text/css" />
 </head>
@@ -18,7 +19,7 @@
   <div id="header">
     <h1>JavaScript unit test file</h1>
     <p>
-      This file tests <strong>call-behaviour.js</strong>.
+      This file tests <strong>behaviour/call.js</strong>.
     </p>
   </div>
 
@@ -26,7 +27,24 @@
   <div id="testlog"></div>
   
   <!-- Put or load sample/test html here (load via sampleLoad(file) in setup() methods) -->
-  <div id="sample"></div>
+  <div id="sample">
+    
+    <h2 id="top">Test Form</h2>
+    <form class="new_call" action="#">
+      <label for="call_destination">Destination Field</label>
+      <input type="text" size="30" name="call[destination]" id="call_destination"/>
+    </form>
+    <h2 id="call-history-headline">Test Call History</h2>
+    <div id="call-history-placeholder">
+      <div id="call-history">
+        <ul>
+          <li>A phone number: <span id="test-phone-number" class="phone-number">4711</span><span class="phone-name"></span></li>
+          <li>A name with hidden phone number: <span class="phone-number" style="display:none">0815</span><span id="test-phone-name" class="phone-name">Name</span></li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -34,20 +52,67 @@
 
   new Test.Unit.Runner({
     
-    // replace this with your real tests
-    
     setup: function() {
-      
+      Telefon.CallBehaviour.autoPopulate = false;
     },
     
-    teardown: function() {
-      
-    },
+    teardown: function() {},
     
-    testTruth: function() { with(this) {
-      assert(true);
-    }}
+    testActivateInputField: function() { with(this) {
+      var focused = false, focusHandler = function(){ focused = true };
+      var input = $('call_destination');
+
+      input.observe('focus', focusHandler);
+      input.value = '12345';
+
+      Telefon.CallBehaviour.init();
+
+      input.stopObserving('focus', focusHandler);
+
+      assert(focused, "input did not receive focus");
+      assertEqual(0,input.selectionStart, "input text is not selected properly");
+      assertEqual(5,input.selectionEnd, "input text is not selected properly");
+    }},
+    
+    testShowCallHistoryHeadline: function() { with(this) {
+      var headline = $('call-history-headline');
       
+      headline.hide();
+      assert(!headline.visible());
+      Telefon.CallBehaviour.init();
+      assert(headline.visible());
+    }},
+    
+    testAutoPopulate: function() { with(this) {
+      var populated = false;
+      
+      Telefon.CallBehaviour.init({autoPopulate:true, populate: function() { populated = true; } });
+      assert(populated, "populate was not called");
+    }},
+
+    testAttachEventHandlers: function() { with(this) {
+      Telefon.CallBehaviour.attach();
+      $$('.phone-name','.phone-number').each(function(e) {
+        assert(e.hasClassName('clickable'), "element does not have clickable class");
+      })
+    }},
+      
+    testClickOnPhoneNumber: function() { with(this) {
+      var element = $('test-phone-number');
+
+      Telefon.CallBehaviour.attach();
+      element.simulate('click');
+      assertEqual('4711', $F('call_destination'));
+    }},
+
+    testClickOnName: function() { with(this) {
+      var element = $('test-phone-name');
+
+      Telefon.CallBehaviour.attach();
+      element.simulate('click');
+      assertEqual('0815', $F('call_destination'));
+    }},
+    
   }, {testLog: "testlog"}); 
   // For each Test.UnitRunner instance, specify the element id where results will be
   // published; e.g. <div id="testlog"/> above.

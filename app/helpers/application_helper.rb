@@ -1,6 +1,7 @@
 module ApplicationHelper
-  def javascript(*files)
+  def javascript(*files, &block)
     content_for(:head) { javascript_include_tag(*files) }
+    content_for(:head, javascript_tag(capture(&block))) if block
   end
 
   def stylesheet(*files)

@@ -16,9 +16,6 @@ describe CallsController do
       route_for(:controller => "calls", :action => "history").should == "/call-history"
     end
 
-    it "should map { :controller => 'calls', :action => 'behaviour', :format => :js } to /call-behaviour.js" do
-      route_for(:controller => "calls", :action => "behaviour", :format => :js).should == "/call-behaviour.js"
-    end
   end
 
   describe "route recognition" do
@@ -36,8 +33,5 @@ describe CallsController do
       params_from(:get, "/call-history").should == {:controller => "calls", :action => "history"}
     end
 
-    it "should generate params { :controller => 'calls', action => 'behaviour', :format => :js } from GET /call-behaviour.js" do
-      params_from(:get, "/call-behaviour.js").should == {:controller => "calls", :action => "behaviour", :format => :js}
-    end
   end
 end
