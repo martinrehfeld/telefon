@@ -1,4 +1,7 @@
 class Call
+  
+  SIPGATE_PREFIXES = %w(1100 1200 2200 2001)
+  
   attr_accessor :origin, :destination, :origin_name, :destination_name,
                 :status, :timestamp
 
@@ -113,7 +116,7 @@ class Call
   def self.normalized_phonenumber(phone)
     phone.to_s.gsub(/(\.|\+|-| |\(|\))/,'').match /[0-9]+/
     number = $&
-    number = number[4..-1] if number && (number.starts_with?("1100") || number.starts_with?("2200"))
+    number = number[4..-1] if number && SIPGATE_PREFIXES.any?{|prefix| number.starts_with?(prefix)}
 
     number
   end

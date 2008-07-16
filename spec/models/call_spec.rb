@@ -189,12 +189,10 @@ describe Call do
       Call.normalized_phonenumber("+49 30 123-456").should == "4930123456"
     end
     
-    it "should strip off leading 1100 (used internally by Sipgate)" do
-      Call.normalized_phonenumber("11004930123456").should == "4930123456"
-    end
-
-    it "should strip off leading 2200 (used internally by Sipgate)" do
-      Call.normalized_phonenumber("22004930123456").should == "4930123456"
+    it "should strip off leading prefixes used internally by Sipgate (#{Call::SIPGATE_PREFIXES.join(', ')})" do
+      Call::SIPGATE_PREFIXES.each do |prefix|
+        Call.normalized_phonenumber("#{prefix}4930123456").should == "4930123456"
+      end
     end
   end
 
