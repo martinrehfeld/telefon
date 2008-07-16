@@ -19,8 +19,8 @@ Telefon.CallBehaviour = (function(){
         },
         onComplete: function(request){
           $('call-history-busy').style.visibility = 'hidden';
-          makePhoneNumbersClickable();
-          new Effect.BlindDown("call-history-placeholder",{duration:3.0});
+          Telefon.CallBehaviour.attach(); // attach event handler to loaded content
+          new Effect.BlindDown('call-history-placeholder',{duration:3.0});
         }
       });
     }
