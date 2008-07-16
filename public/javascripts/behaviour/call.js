@@ -1,5 +1,5 @@
-window.Telefon = window.Telefon || {};
-Telefon.CallBehaviour = function(){
+var Telefon = window.Telefon || {};
+Telefon.CallBehaviour = (function(){
 
   // activate destination field for immediate entry
   function activateInputField(){
@@ -26,14 +26,6 @@ Telefon.CallBehaviour = function(){
     }
   }
   
-  // attach event handler
-  function makePhoneNumbersClickable() {
-    $$('.phone-number', '.phone-name').each(function(e) {
-      e.addClassName('clickable');
-    });
-    $('call-history').observe('click', clickHandler);
-  }
-
   // event handler for clicks in call history
   function clickHandler(event) {
     var element = event.element();
@@ -49,18 +41,30 @@ Telefon.CallBehaviour = function(){
     }
   }
 
-  // public properties / methods
+  // public members
   return {
+    // attributes
     autoPopulate: true,
-    attach: makePhoneNumbersClickable,
-    populate: populateCallHistory,
     sourceUrl: '/call-history',
-    init: function(options){
+    
+    // methods
+    populate: populateCallHistory, // default to private static function defined above
+
+    attach: function() {
+      $$('.phone-number', '.phone-name').each(function(e) {
+        e.addClassName('clickable');
+      });
+      $('call-history').observe('click', clickHandler);
+    },
+
+    init: function(options) {
+      // make sure we are using the right scope even if we are called with this set to some other object
       var self = Telefon.CallBehaviour;
-      if(options) { Object.extend(self, options); }
+
+      if(options != undefined) { Object.extend(self, options); }
       activateInputField();
       if(self.autoPopulate) { self.populate(); }
     }
   };
 
-}();
+})();
