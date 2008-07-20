@@ -34,7 +34,7 @@ Telefon.CallBehaviour = (function(){
       element = event.element().previous('.phone-number');
     }
     if(element.hasClassName('phone-number')) {
-      $('call_destination').value = element.innerHTML;
+      $('call_destination').value = element.innerHTML.stripScripts().stripTags();
       $('top').scrollTo();
       Form.Element.activate('call_destination');
       event.stop();
