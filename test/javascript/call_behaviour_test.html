@@ -40,6 +40,8 @@
         <ul>
           <li>A phone number: <span id="test-phone-number" class="phone-number">4711</span><span class="phone-name"></span></li>
           <li>A name with hidden phone number: <span class="phone-number" style="display:none">0815</span><span id="test-phone-name" class="phone-name">Name</span></li>
+          <li>A phone number with embedded markup: <span id="test-phone-number-with-markup" class="phone-number">4<span id="test-phone-number-highlight">71</span>1</span><span class="phone-name"></span></li>
+          <li>A name with hidden phone number and embedded markup: <span class="phone-number" style="display:none">0<span class="highlight">81</span>5</span><span id="test-phone-name-with-markup" class="phone-name">N<span id="test-phone-name-highlight">am</span>e</span></li>
         </ul>
       </div>
     </div>
@@ -112,6 +114,38 @@
       element.simulate('click');
       assertEqual('0815', $F('call_destination'));
     }},
+    
+    testClickOnPhoneNumberWithEmbeddedMarkup: function() { with(this) {
+      var element = $('test-phone-number-with-markup');
+
+      Telefon.CallBehaviour.attach();
+      element.simulate('click');
+      assertEqual('4711', $F('call_destination'));
+    }},
+
+    testClickOnNameWithEmbeddedMarkup: function() { with(this) {
+      var element = $('test-phone-name-with-markup');
+
+      Telefon.CallBehaviour.attach();
+      element.simulate('click');
+      assertEqual('0815', $F('call_destination'));
+    }},
+    
+    testClickOnChildElementOfPhoneNumber: function() { with(this) {
+      var element = $('test-phone-number-highlight');
+
+      Telefon.CallBehaviour.attach();
+      element.simulate('click');
+      assertEqual('4711', $F('call_destination'));
+    }},
+
+    testClickOnChildElementOfPhoneName: function() { with(this) {
+      var element = $('test-phone-name-highlight');
+
+      Telefon.CallBehaviour.attach();
+      element.simulate('click');
+      assertEqual('0815', $F('call_destination'));
+    }}
     
   }, {testLog: "testlog"}); 
   // For each Test.UnitRunner instance, specify the element id where results will be

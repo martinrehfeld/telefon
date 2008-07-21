@@ -26,14 +26,22 @@ Telefon.CallBehaviour = (function(){
     }
   }
   
-  // event handler for clicks in call history
+  // delegate event handler for clicks in call history
   function clickHandler(event) {
     var element = event.element();
+    
+    // find the topmost element with the classes we are interested in
+    element = element.ancestors().find(function(e){
+      return e.hasClassName('phone-name') || e.hasClassName('phone-number');
+    }) || element;
 
+    // if a phone-name was clicked, find the matching phone-number
     if(element.hasClassName('phone-name')) {
-      element = event.element().previous('.phone-number');
+      element = element.siblings().find(function(e){ return ('.phone-number'); });
     }
-    if(element.hasClassName('phone-number')) {
+    
+    // process the event if a phone-number was targeted
+    if(element && element.hasClassName('phone-number')) {
       $('call_destination').value = element.innerHTML.stripScripts().stripTags();
       $('top').scrollTo();
       Form.Element.activate('call_destination');
