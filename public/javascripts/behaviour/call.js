@@ -37,7 +37,7 @@ Telefon.CallBehaviour = (function(){
 
     // if a phone-name was clicked, find the matching phone-number
     if(element.hasClassName('phone-name')) {
-      element = element.siblings().find(function(e){ return ('.phone-number'); });
+      element = element.siblings().find(function(e){ return e.hasClassName('phone-number'); });
     }
     
     // process the event if a phone-number was targeted
