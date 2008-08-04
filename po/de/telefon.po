@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: telefon 1.0.0\n"
-"POT-Creation-Date: 2008-07-07 22:52+0200\n"
+"POT-Creation-Date: 2008-08-05 00:19+0200\n"
 "PO-Revision-Date: 2008-07-06 13:20+0200\n"
 "Last-Translator: Martin Rehfeld <martin.rehfeld@glnetworks.de>\n"
 "Language-Team: DE <martin.rehfeld@glnetworks.de>\n"
@@ -16,50 +16,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app/controllers/calls_controller.rb:15
+#: app/controllers/calls_controller.rb:17
 msgid "Call initiated."
 msgstr "Anruf gestartet."
 
 # Call class /app/models/call.rb
-#: app/models/call.rb:9
+#: app/models/call.rb:14 app/views/calls/history.html.erb:3
 msgid "call"
 msgstr "Anruf"
 
-#: app/models/call.rb:10
+#: app/models/call.rb:15
 msgid "Call|missed"
 msgstr "verpasst"
 
-#: app/models/call.rb:11
+#: app/models/call.rb:16
 msgid "Call|accepted"
 msgstr "angenommen"
 
-#: app/models/call.rb:12
+#: app/models/call.rb:17
 msgid "Call|outgoing"
 msgstr "getätigt"
 
-#: app/models/call.rb:13 app/views/calls/_history.html.erb:7
+#: app/models/call.rb:18 app/views/calls/_history.html.erb:7
 msgid "Call|Status"
 msgstr " "
 
-#: app/models/call.rb:14 app/views/calls/_history.html.erb:6
+#: app/models/call.rb:19 app/views/calls/_history.html.erb:6
 msgid "Call|Timestamp"
 msgstr "Zeitpunkt"
 
-#: app/models/call.rb:15
+#: app/models/call.rb:20
 msgid "Call|Origin"
 msgstr "Apparat"
 
-#: app/models/call.rb:16
+#: app/models/call.rb:21
 msgid "Call|Destination"
 msgstr "Zielrufnummer"
 
-#: app/models/call.rb:97
+#: app/models/call.rb:107
 msgid "has invalid telephone number format."
 msgstr "hat ein ungültiges Telefonnummernformat."
 
-#: app/views/calls/_history.html.erb:1
-msgid "Call History"
-msgstr "Anrufe"
+# app/models/favorite.rb:-
+msgid "favorite"
+msgstr "Favorit"
+
+# app/models/favorite.rb:-
+msgid "Favorite|Name"
+msgstr "Name"
+
+# app/models/favorite.rb:-
+msgid "Favorite|Uri"
+msgstr "URI"
+
+# app/models/favorite.rb:-
+msgid "Favorite|Created at"
+msgstr "angelegt am"
+
+# app/models/favorite.rb:-
+msgid "Favorite|Updated at"
+msgstr "geändert am"
+
+#: app/views/calls/_favorite.html.erb:2 app/views/calls/_history.html.erb:18
+#: app/views/calls/_history.html.erb:19
+msgid "unknown"
+msgstr "unbekannt"
 
 #: app/views/calls/_history.html.erb:8
 msgid "Conversational Partner"
@@ -69,13 +90,21 @@ msgstr "Gesprächspartner"
 msgid "Own Extension"
 msgstr "Eigener Anschluss"
 
-#: app/views/calls/_history.html.erb:18 app/views/calls/_history.html.erb:19
-msgid "unknown"
-msgstr "unbekannt"
+#: app/views/calls/_history.html.erb:26
+msgid "Could not retrieve the call history (try reloading this page)."
+msgstr "Die Anrufhistorie konnte nicht geladen werden (versuchen sie, diese Seite neu zu laden)."
 
-#: app/views/calls/index.html.erb:14
+#: app/views/calls/history.html.erb:1 app/views/calls/index.html.erb:33
+msgid "Call History"
+msgstr "Anrufe"
+
+#: app/views/calls/index.html.erb:17
 msgid "Connect"
 msgstr "Anrufen"
+
+#: app/views/calls/index.html.erb:25
+msgid "Favorites"
+msgstr "Schnellzugriff"
 
 #: lib/gettext_date.rb:26
 msgid "%Y-%m-%d"
