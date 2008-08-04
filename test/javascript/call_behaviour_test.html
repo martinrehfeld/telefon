@@ -93,7 +93,6 @@
     }},
 
     testAttachEventHandlers: function() { with(this) {
-      Telefon.CallBehaviour.attach();
       $$('.phone-name','.phone-number').each(function(e) {
         assert(e.hasClassName('clickable'), "element does not have clickable class");
       })
@@ -102,7 +101,6 @@
     testClickOnPhoneNumber: function() { with(this) {
       var element = $('test-phone-number');
 
-      Telefon.CallBehaviour.attach();
       element.simulate('click');
       assertEqual('4711', $F('call_destination'));
     }},
@@ -110,7 +108,6 @@
     testClickOnName: function() { with(this) {
       var element = $('test-phone-name');
 
-      Telefon.CallBehaviour.attach();
       element.simulate('click');
       assertEqual('0815', $F('call_destination'));
     }},
@@ -118,7 +115,6 @@
     testClickOnPhoneNumberWithEmbeddedMarkup: function() { with(this) {
       var element = $('test-phone-number-with-markup');
 
-      Telefon.CallBehaviour.attach();
       element.simulate('click');
       assertEqual('4711', $F('call_destination'));
     }},
@@ -126,7 +122,6 @@
     testClickOnNameWithEmbeddedMarkup: function() { with(this) {
       var element = $('test-phone-name-with-markup');
 
-      Telefon.CallBehaviour.attach();
       element.simulate('click');
       assertEqual('0815', $F('call_destination'));
     }},
@@ -134,7 +129,6 @@
     testClickOnChildElementOfPhoneNumber: function() { with(this) {
       var element = $('test-phone-number-highlight');
 
-      Telefon.CallBehaviour.attach();
       element.simulate('click');
       assertEqual('4711', $F('call_destination'));
     }},
@@ -142,7 +136,6 @@
     testClickOnChildElementOfPhoneName: function() { with(this) {
       var element = $('test-phone-name-highlight');
 
-      Telefon.CallBehaviour.attach();
       element.simulate('click');
       assertEqual('0815', $F('call_destination'));
     }}
