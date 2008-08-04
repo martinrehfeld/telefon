@@ -39,11 +39,11 @@ namespace :deploy do
 
   desc "Copy local database.production.yml to server"
   task :copy_db_config do
-    put(File.read('config/database.production.yml'),"#{current_path}/config/database.yml", :mode => 0600)
+    put(File.read('config/database.production.yml'),"#{release_path}/config/database.yml", :mode => 0600)
   end
 
   after "deploy:symlink", "deploy:copy_sipgate_config" 
-  after "deploy:symlink", "deploy:copy_db_config" 
+  after "deploy:update_code", "deploy:copy_db_config" 
 end
 
 
