@@ -16,7 +16,12 @@ class Sipgate
   # reload config from sipgate.yml file and provide corresponding XMLRPC client object
   def reload!
     config = YAML.load_file(File.join(Rails.root,'config','sipgate.yml'))
+
     @server = XMLRPC::Client.new2("https://#{config['username']}:#{config['password']}@samurai.sipgate.net/RPC2")
+    http = @server.instance_variable_get(:@http)
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    http.ca_file = File.join(Rails.root, 'lib', 'cacert.pem')
+
     @own_uri_list = nil
     @phonebook = {}
   end
