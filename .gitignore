@@ -7,4 +7,5 @@ doc/app
 db/schema.rb
 db/*.sqlite3
 config/sipgate.yml
+config/database.production.yml
 coverage

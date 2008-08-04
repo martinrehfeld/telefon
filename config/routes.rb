@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :favorites
 
   map.with_options :controller => 'calls' do |route|
     route.calls          '',                  :action => 'index', :conditions => { :method => :get }

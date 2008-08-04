@@ -27,6 +27,11 @@ describe CallsController do
       get :index
       assigns[:call].origin.should == 'sip:89012345@sipgate.de'
     end
+    
+    it "should include a list of favorites" do
+      get :index
+      assigns[:favorites].should be_kind_of(Array)
+    end
   end
   
   describe "POST /calls" do

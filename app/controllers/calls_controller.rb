@@ -3,6 +3,7 @@ class CallsController < ApplicationController
   # GET /calls
   def index
     @call = Call.new(:origin => cookies[:last_call_origin])
+    @favorites = Favorite.all
     @include_history = true
   end
 

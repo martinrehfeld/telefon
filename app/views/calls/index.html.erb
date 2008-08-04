@@ -20,6 +20,13 @@
 
 <%= error_messages_for :call %>
 
+<div id="favorites">
+  <span id="all-favorites">
+    <span id="favorites-label"><%= link_to _('Favorites'), favorites_path %></span>
+    <%= render :partial => "favorite", :collection => @favorites %>
+  </span>
+</div>
+
 <% if @include_history %>
   <!-- to be populated and made visible via javascript behaviour -->
   <h2 id="call-history-headline" style="display:none">

@@ -26,7 +26,7 @@ Telefon.CallBehaviour = (function(){
     }
   }
   
-  // delegate event handler for clicks in call history
+  // delegate event handler for clicks on calls page
   function clickHandler(event) {
     var element = event.element();
     
@@ -62,7 +62,7 @@ Telefon.CallBehaviour = (function(){
       $$('.phone-number', '.phone-name').each(function(e) {
         e.addClassName('clickable');
       });
-      $('call-history').observe('click', clickHandler);
+      $(document.body).observe('click', clickHandler);
     },
 
     init: function(options) {
@@ -71,6 +71,7 @@ Telefon.CallBehaviour = (function(){
 
       if(options != undefined) { Object.extend(self, options); }
       activateInputField();
+      self.attach();
       if(self.autoPopulate) { self.populate(); }
     }
   };

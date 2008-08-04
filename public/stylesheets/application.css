@@ -20,7 +20,32 @@ h2 {
 }
 
 div#new-call-form {
-  padding-bottom: 15px;
+  padding-bottom: 10px;
+}
+
+div#favorites {
+  margin-bottom: 15px;
+}
+
+div#favorites a,
+div#favorites a:visited {
+  color: #fff;
+  text-decoration: none;
+}
+
+div#favorites span#all-favorites {
+  color: #fff;
+  background-color:#666;
+}
+
+div#favorites span#favorites-label {
+  font-weight: bold;
+  text-transform: lowercase;
+  padding-right: 5px;
+}
+
+div#favorites span.favorite {
+  padding-right: 5px;
 }
 
 div.form-field {
