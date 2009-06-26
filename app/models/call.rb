@@ -1,6 +1,6 @@
 class Call
   
-  SIPGATE_PREFIXES = %w(1100 1200 2200 2001)
+  SIPGATE_PREFIXES = %w(1100 1200 2200 2001 2300 2400)
   
   attr_accessor :origin, :destination, :origin_name, :destination_name,
                 :status, :timestamp
